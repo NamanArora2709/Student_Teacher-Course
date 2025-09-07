@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Student Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous" />
-       
+
     <style>
         :root {
             --teal: #008080;
         }
+
         body {
             background: #f6f8fb;
         }
+
         .topbar {
             background: #fff;
             box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
         }
+
         .profile-pic {
             width: 40px;
             height: 40px;
@@ -25,46 +29,55 @@
             object-fit: cover;
             border: 2px solid var(--teal);
         }
+
         .sidebar-card {
             background: #fff;
             border: 0;
             border-radius: 16px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
         }
+
         .sidebar-card .btn {
             border-radius: 12px;
             padding: .8rem 1rem;
             font-weight: 600;
         }
+
         .btn-primary {
             background: var(--teal);
             border-color: var(--teal);
             border-radius: 10px;
         }
+
         .btn-primary:hover {
             background: #006666;
             border-color: #006666;
         }
+
         .course-card {
             border: 0;
             border-radius: 16px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
         }
+
         .course-card .card-img-top {
             height: 200px;
             object-fit: cover;
             border-top-left-radius: 16px;
             border-top-right-radius: 16px;
         }
+
         .course-card .card-title {
             color: var(--teal);
         }
+
         .welcome {
             color: var(--teal);
             text-align: center;
             font-weight: 800;
             letter-spacing: .5px;
         }
+
         #chatbotBtn {
             position: fixed;
             bottom: 20px;
@@ -79,6 +92,7 @@
             font-size: 24px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+
         .chatbot-modal.modal.fade .modal-dialog {
             position: fixed;
             margin: 0;
@@ -88,9 +102,11 @@
             max-width: 400px;
             transition: right 0.3s ease-in-out;
         }
+
         .chatbot-modal.modal.show .modal-dialog {
             right: 0;
         }
+
         .chatbot-modal .modal-content {
             height: 100%;
             border-radius: 0;
@@ -100,32 +116,39 @@
             display: flex;
             flex-direction: column;
         }
+
         .chatbot-header {
             background: var(--teal);
             color: #fff;
             font-weight: bold;
             padding: 1rem;
         }
+
         .chatbot-body {
             flex: 1;
             padding: 1rem;
             overflow-y: auto;
         }
+
         .chatbot-footer {
             padding: .75rem;
             border-top: 1px solid #ddd;
             display: flex;
             gap: .5rem;
         }
+
         .chatbot-footer input {
             flex: 1;
             border-radius: 10px;
         }
+
         .chatbot-footer .btn {
             border-radius: 10px;
         }
     </style>
+
 </head>
+
 <body>
     <nav class="navbar topbar">
         <div class="container-fluid">
@@ -155,87 +178,71 @@
                 </div>
             </div>
             <div class="col-12 col-md-9 col-lg-10">
-                <h1 class="welcome display-6 mb-4"><div id="wlc" > *</div></h1>
+                <h1 class="welcome display-6 mb-4">
+                    <div id="wlc"> *</div>
+                </h1>
                 <div id="courseContainer" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                    <div class="col">
-                        <div class="card course-card h-100">
-                            <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=800&auto=format&fit=crop"
-                                class="card-img-top" alt="Course">
-                            <div class="card-body">
-                                <h5 class="card-title">Course 1</h5>
-                                <p class="card-text">Short description about the course goes here.</p>
-                            </div>
-                            <div class="card-footer bg-transparent border-0 text-center pb-4">
-                                <button class="btn btn-primary">Enroll</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card course-card h-100">
-                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop"
-                                class="card-img-top" alt="Course">
-                            <div class="card-body">
-                                <h5 class="card-title">Course 2</h5>
-                                <p class="card-text">Short description about the course goes here.</p>
-                            </div>
-                            <div class="card-footer bg-transparent border-0 text-center pb-4">
-                                <button class="btn btn-primary">Enroll</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card course-card h-100">
-                            <img src="https://s3.ap-south-1.amazonaws.com/prod-easebuzz-static/static/base/assets_aug_2021/img/easebuzz/easebuzz-explainer/explainers-features-and-updates/online-courses/online-courses.png"
-                                class="card-img-top" alt="Course">
-                            <div class="card-body">
-                                <h5 class="card-title">Course 3</h5>
-                                <p class="card-text">Short description about the course goes here.</p>
-                            </div>
-                            <div class="card-footer bg-transparent border-0 text-center pb-4">
-                                <button class="btn btn-primary">Enroll</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card course-card h-100">
-                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop"
-                                class="card-img-top" alt="Course">
-                            <div class="card-body">
-                                <h5 class="card-title">Course 4</h5>
-                                <p class="card-text">Short description about the course goes here.</p>
-                            </div>
-                            <div class="card-footer bg-transparent border-0 text-center pb-4">
-                                <button class="btn btn-primary">Enroll</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card course-card h-100">
-                            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop"
-                                class="card-img-top" alt="Course">
-                            <div class="card-body">
-                                <h5 class="card-title">Course 5</h5>
-                                <p class="card-text">Short description about the course goes here.</p>
-                            </div>
-                            <div class="card-footer bg-transparent border-0 text-center pb-4">
-                                <button class="btn btn-primary">Enroll</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card course-card h-100">
-                            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop"
-                                class="card-img-top" alt="Course">
-                            <div class="card-body">
-                                <h5 class="card-title">Course 6</h5>
-                                <p class="card-text">Short description about the course goes here.</p>
-                            </div>
-                            <div class="card-footer bg-transparent border-0 text-center pb-4">
-                                <button class="btn btn-primary">Enroll</button>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
+                <script>
+                    async function loadCourses() {
+                        try {
+                            const res = await fetch("/courses");
+                            const courses = await res.json();
+
+                            const container = document.getElementById("courseContainer");
+                            container.innerHTML = ""; // clear existing
+
+                            courses.forEach(course => {
+                                const col = document.createElement("div");
+                                col.classList.add("col");
+
+                                col.innerHTML = `
+    <div class="card course-card h-100">
+        <div class="card-body">
+            <h5 class="card-title">${course.naam}</h5>
+            <p class="card-text">${course.descriptionn || ''}</p>
+        </div>
+        <div class="card-footer bg-transparent border-0 text-center pb-4">
+            <button class="btn btn-primary enroll-btn">Enroll</button>
+        </div>
+    </div>
+`;
+
+                                container.appendChild(col);
+                            });
+
+                            // Add enroll button listeners
+                            document.querySelectorAll(".enroll-btn").forEach(btn => {
+                                btn.addEventListener("click", async (e) => {
+                                    const card = e.target.closest(".course-card");
+                                    const courseName = card.querySelector(".card-title").innerText;
+                                    const email = new URLSearchParams(window.location.search).get("email");
+
+                                    try {
+                                        const res = await fetch("/enroll", {
+                                            method: "POST",
+                                            headers: { "Content-Type": "application/json" },
+                                            body: JSON.stringify({ email, course: courseName })
+                                        });
+                                        const data = await res.json();
+                                        if (res.ok) alert(`Successfully enrolled in ${courseName}!`);
+                                        else alert(`Error: ${data.message}`);
+                                    } catch (err) {
+                                        console.error(err);
+                                        alert("Something went wrong. Please try again.");
+                                    }
+                                });
+                            });
+
+                        } catch (err) {
+                            console.error(err);
+                            alert("Failed to load courses");
+                        }
+                    }
+
+                    window.addEventListener("DOMContentLoaded", loadCourses);
+                </script>
             </div>
         </div>
     </div>
@@ -310,102 +317,103 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
     </script>
-     <script>
-            const parms = new URLSearchParams(window.location.search);
-      const email = parms.get("email");
-      document.getElementById("wlc").innerText = `Welcome, ${email}`;
+    <script>
+        const parms = new URLSearchParams(window.location.search);
+        const email = parms.get("email");
+        document.getElementById("wlc").innerText = `Welcome, ${email}`;
 
-        </script>
-
-
+    </script>
 
 
-<script>
-    async function sendMessage() {
-        const message = chatInput.value.trim();
-        if (!message) return;
 
-        // Show user message
-        const msgEl = document.createElement("p");
-        msgEl.classList.add("text-end", "mb-2");
-        msgEl.innerHTML = `<span class="badge bg-primary">${message}</span>`;
-        chatMessages.appendChild(msgEl);
-        chatInput.value = "";
-        chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // Show loading
-        const loadingEl = document.createElement("p");
-        loadingEl.classList.add("text-muted");
-        loadingEl.innerText = "Thinking...";
-        chatMessages.appendChild(loadingEl);
+    <script>
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
 
-        try {
-            // Get logged-in user email from a global variable or hidden input
-            const parms = new URLSearchParams(window.location.search);
-      const email = parms.get("email"); // <--- define this when user logs in
-
-            const response = await fetch("/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message, email })
-            });
-            const data = await response.json();
-
-            loadingEl.remove();
-
-            // Show Gemini reply
-            const botEl = document.createElement("p");
-            botEl.classList.add("text-start", "mb-2");
-            botEl.innerHTML = `<span class="badge bg-secondary">${data.reply}</span>`;
-            chatMessages.appendChild(botEl);
+            // Show user message
+            const msgEl = document.createElement("p");
+            msgEl.classList.add("text-end", "mb-2");
+            msgEl.innerHTML = `<span class="badge bg-primary">${message}</span>`;
+            chatMessages.appendChild(msgEl);
+            chatInput.value = "";
             chatMessages.scrollTop = chatMessages.scrollHeight;
-        } catch (err) {
-            loadingEl.innerText = "Error connecting to AI.";
-            console.error(err);
+
+            // Show loading
+            const loadingEl = document.createElement("p");
+            loadingEl.classList.add("text-muted");
+            loadingEl.innerText = "Thinking...";
+            chatMessages.appendChild(loadingEl);
+
+            try {
+                // Get logged-in user email from a global variable or hidden input
+                const parms = new URLSearchParams(window.location.search);
+                const email = parms.get("email"); // <--- define this when user logs in
+
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message, email })
+                });
+                const data = await response.json();
+
+                loadingEl.remove();
+
+                // Show Gemini reply
+                const botEl = document.createElement("p");
+                botEl.classList.add("text-start", "mb-2");
+                botEl.innerHTML = `<span class="badge bg-secondary">${data.reply}</span>`;
+                chatMessages.appendChild(botEl);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (err) {
+                loadingEl.innerText = "Error connecting to AI.";
+                console.error(err);
+            }
         }
-    }
-</script>
+    </script>
 
 
-<script>
-    
-  // Select all enroll buttons
-  const enrollButtons = document.querySelectorAll("#courseContainer .btn-primary");
+    <script>
 
-  enrollButtons.forEach(btn => {
-    btn.addEventListener("click", async () => {
-      const card = btn.closest(".course-card");
-      const courseName = card.querySelector(".card-title").innerText;
+        // Select all enroll buttons
+        const enrollButtons = document.querySelectorAll("#courseContainer .btn-primary");
 
-      // Get the logged-in user's email from the URL
-      const parms = new URLSearchParams(window.location.search);
-      const email = parms.get("email");
+        enrollButtons.forEach(btn => {
+            btn.addEventListener("click", async () => {
+                const card = btn.closest(".course-card");
+                const courseName = card.querySelector(".card-title").innerText;
 
-      try {
-        const response = await fetch("/enroll", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ email, course: courseName })
+                // Get the logged-in user's email from the URL
+                const parms = new URLSearchParams(window.location.search);
+                const email = parms.get("email");
+
+                try {
+                    const response = await fetch("/enroll", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ email, course: courseName })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert(`Successfully enrolled in ${courseName}!`);
+                    } else {
+                        alert(`Error: ${data.message}`);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("Something went wrong. Please try again.");
+                }
+            });
         });
+    </script>
 
-        const data = await response.json();
-
-        if (response.ok) {
-          alert(`Successfully enrolled in ${courseName}!`);
-        } else {
-          alert(`Error: ${data.message}`);
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Something went wrong. Please try again.");
-      }
-    });
-  });
-</script>
-
-
+    
 
 </body>
+
 </html>

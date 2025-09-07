@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Teacher Dashboard</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #009688;
+            --primary-600: #00796b;
+            --primary-50: #e0f2f1;
+            --ink: #1f2937;
+            --muted: #6b7280;
+            --card: #ffffff;
+            --bg: #f7f9fb;
+            --radius: 16px;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            min-height: 100vh;
+            background: var(--card);
+            box-shadow: 2px 0 12px rgba(0, 0, 0, .05);
+            padding: 1rem .75rem;
+            position: sticky;
+            top: 0;
+        }
+
+        .sidebar .nav-btn {
+            width: 100%;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            background: #fff;
+            border-radius: 14px;
+            padding: .8rem 1rem;
+            margin: .35rem 0;
+            font-weight: 600;
+        }
+
+        .sidebar .nav-btn.active,
+        .sidebar .nav-btn:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* Topbar */
+        .topbar {
+            background: var(--card);
+            border-radius: 0 0 var(--radius) var(--radius);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, .06);
+            padding: .75rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .brand {
+            letter-spacing: 1px;
+            color: var(--primary-600);
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .search-pill input {
+            border-radius: 999px;
+        }
+
+        .btn-teal {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+        }
+
+        .btn-teal:hover {
+            background: var(--primary-600);
+            color: #fff;
+        }
+
+        /* Cards */
+        .course-card {
+            border: none;
+            border-radius: 18px;
+            overflow: hidden;
+            background: var(--card);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
+            transition: transform .25s ease, box-shadow .25s ease;
+            cursor: pointer;
+        }
+
+        .course-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, .14);
+        }
+
+        .course-img {
+            height: 180px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .badge-teal {
+            background: var(--primary);
+            color: #fff;
+            border-radius: 10px;
+        }
+
+        .pill {
+            background: var(--primary-50);
+            color: var(--primary-600);
+            border-radius: 999px;
+            padding: .25rem .6rem;
+            font-weight: 700;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        /* Chatbot button */
+        .chatbot-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 28px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1050;
+        }
+
+        /* Chatbot modal slide-in */
+        .chatbot-modal .modal-dialog {
+            position: fixed;
+            right: 0;
+            margin: 0;
+            height: 100%;
+            max-width: 400px;
+        }
+
+        .chatbot-modal .modal-content {
+            height: 100%;
+            border-radius: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <aside class="col-12 col-md-3 col-lg-2 sidebar">
+                <button class="nav-btn active" data-bs-toggle="modal" name="btn_Addnewcourse" id="btn_Addnewcourse"
+                    data-bs-target="#addCourseModal">
+                    <i class="bi bi-plus-circle me-2"></i>Add New Course
+                </button>
+                <button class="nav-btn" name="btn_Settings" id="btn_Settings">
+                    <i class="bi bi-gear me-2"></i>Settings
+                </button>
+                <button class="nav-btn" name="btn_Logout" id="btn_Logout" >
+                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                </button>
+            </aside>
+
+            <!-- Main -->
+            <main class="col-12 col-md-9 col-lg-10">
+                <!-- Topbar -->
+                <div class="topbar d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <h3 class="m-0 brand">My Courses</h3>
+
+                    <div class="d-flex align-items-center gap-3 ms-auto">
+                        <div class="search-pill">
+                            <input id="searchInput" class="form-control" placeholder="Search courses or codes..." />
+                        </div>
+
+                        <!-- Profile dropdown -->
+                        <div class="dropdown">
+                            <button class="btn p-0 border-0 rounded-circle overflow-hidden" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false" style="width:44px;height:44px;">
+                                <img src="https://i.pravatar.cc/100?img=12" alt="Profile"
+                                    class="w-100 h-100 object-fit-cover rounded-circle">
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <h6 class="dropdown-header">Teacher</h6>
+                                </li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item text-danger" href="#"><i
+                                            class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <section class="p-4">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="courseGrid">
+                        <!-- Card Example -->
+                        
+
+                        
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+<script>
+$(document).ready(function() {
+    const parms = new URLSearchParams(window.location.search);
+    const email = parms.get("email"); // teacher email from URL
+
+    if (email) {
+        $.ajax({
+            url: "/teacher_courses",
+            method: "GET",
+            data: { email: email },
+            success: function(courses) {
+                const grid = $("#courseGrid");
+                grid.empty(); // clear existing static cards
+
+                courses.forEach(course => {
+                    const col = $(`
+                        <div class="col">
+                            <div class="card course-card h-100" data-title="${course.naam}" data-code="${course.id || ''}" data-teacher="${course.Email}" data-outcomes="${course.descriptionn}">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-1">${course.naam}</h5>
+                                        <span class="badge badge-teal">${course.id || ''}</span>
+                                    </div>
+                                    <p class="muted mb-3">${course.descriptionn}</p>
+                                    <span class="pill"><i class="bi bi-people me-1"></i><span class="count" data-count="0">0</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    grid.append(col);
+
+                    // Click to show details modal
+                    col.find('.course-card').on('click', function() {
+                        $('#courseTitle').text(course.naam);
+                        $('#courseCode').text(course.id || '');
+                        $('#courseTeacher').text(course.Email);
+                        const outcomes = course.descriptionn.split(',');
+                        const list = $('#courseOutcomes');
+                        list.empty();
+                        outcomes.forEach(o => list.append(`<li>${o.trim()}</li>`));
+                        new bootstrap.Modal(document.getElementById('courseDetailsModal')).show();
+                    });
+                });
+            },
+            error: function(err) {
+                console.error(err);
+                alert("Failed to load courses");
+            }
+        });
+    }
+});
+</script>
+    <!-- Course Details Modal -->
+    <div class="modal fade" id="courseDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="courseTitle">Course Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Course Code:</strong> <span id="courseCode"></span></p>
+                    <p><strong>Teacher:</strong> <span id="courseTeacher"></span></p>
+                    <p><strong>Learning Outcomes:</strong></p>
+                    <ul id="courseOutcomes"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Course Modal -->
+    <div class="modal fade" id="addCourseModal" tabindex="-1" aria-labelledby="addCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCourseModalLabel">Add New Course</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/add_course">
+                        <div class="mb-3">
+                            <label for="txt_CourseName" class="form-label">Course Name</label>
+                            <input type="text" class="form-control" id="txt_CourseName" name="txt_CourseName" placeholder="Enter course name"
+                                required>
+                        </div>
+                       
+
+                        <div class="mb-3">
+                            <label for="txt_CourseDetail" class="form-label">Course Description</label>
+                            <textarea class="form-control" id="txt_CourseDetail" name="txt_CourseDetail" rows="3"
+                                placeholder="Write a short description" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="btnSaveCourse" class="btn btn-teal">Save Course</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+$(document).ready(function(){
+   $("#btnSaveCourse").on("click", function(e) {
+    e.preventDefault(); // prevent default just in case
+
+    const courseName = $("#txt_CourseName").val();
+    const courseDetail = $("#txt_CourseDetail").val();
+    const parms = new URLSearchParams(window.location.search);
+    const email = parms.get("email");
+
+    $.ajax({
+        url: "/add_course",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            txt_CourseName: courseName,
+            txt_CourseDetail: courseDetail,
+            email: email
+        }),
+        success: function(data) {
+            alert("Course added successfully!");
+            // Close modal
+            const modalEl = document.getElementById("addCourseModal");
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+            $("#addCourseForm")[0].reset();
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            alert("Something went wrong! " + xhr.responseJSON?.message);
+        }
+    });
+});
+});
+</script>
+    <!-- Chatbot Button -->
+    <div class="chatbot-btn" data-bs-toggle="modal" data-bs-target="#chatbotModal">
+        <i class="bi bi-chat-dots-fill"></i>
+    </div>
+
+    <!-- Chatbot Modal -->
+    <div class="modal fade chatbot-modal" id="chatbotModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content d-flex flex-column">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chatbot</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body flex-grow-1">
+                    <div id="chatArea" style="height: 70vh; overflow-y: auto;"></div>
+                </div>
+                <div class="modal-footer">
+                    <input type="text" id="chatInput" class="form-control" placeholder="Type a message..." />
+                    <button class="btn btn-teal" id="sendBtn">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Count animation
+        document.querySelectorAll('.count').forEach(el => {
+            const target = +el.dataset.count;
+            let n = 0;
+            const step = Math.max(1, Math.ceil(target / 40));
+            const id = setInterval(() => {
+                n += step;
+                if (n >= target) { n = target; clearInterval(id); }
+                el.textContent = n;
+            }, 25);
+        });
+
+        // Course details modal
+        document.querySelectorAll('.course-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.getElementById('courseTitle').textContent = card.dataset.title;
+                document.getElementById('courseCode').textContent = card.dataset.code;
+                document.getElementById('courseTeacher').textContent = card.dataset.teacher;
+                const outcomes = card.dataset.outcomes.split(',');
+                const list = document.getElementById('courseOutcomes');
+                list.innerHTML = '';
+                outcomes.forEach(o => {
+                    const li = document.createElement('li');
+                    li.textContent = o.trim();
+                    list.appendChild(li);
+                });
+                new bootstrap.Modal(document.getElementById('courseDetailsModal')).show();
+            });
+        });
+
+        // Chatbot send
+        document.getElementById('sendBtn').addEventListener('click', () => {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            const chatArea = document.getElementById('chatArea');
+            const msg = document.createElement('div');
+            msg.textContent = "You: " + text;
+            chatArea.appendChild(msg);
+            chatArea.scrollTop = chatArea.scrollHeight;
+            input.value = '';
+        });
+
+        // Search filter
+        const searchInput = document.getElementById('searchInput');
+        const cards = [...document.querySelectorAll('#courseGrid .col')];
+        searchInput.addEventListener('input', e => {
+            const q = e.target.value.trim().toLowerCase();
+            cards.forEach(c => {
+                const t = c.querySelector('.card').dataset.title.toLowerCase();
+                const code = c.querySelector('.card').dataset.code.toLowerCase();
+                c.style.display = (t.includes(q) || code.includes(q)) ? '' : 'none';
+            });
+        });
+    </script>
+
+</body>
+
+</html>

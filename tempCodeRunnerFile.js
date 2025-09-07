@@ -237,17 +237,3 @@ app.post("/add_course", function(req, resp) {
         }
     );
 });
-
-app.get("/teacher_courses", (req, res) => {
-    const email = req.query.email;
-    if (!email) return res.status(400).json({ error: "Email required" });
-
-    mysqlVen.query(
-        "SELECT * FROM CourseList WHERE Email = ?",
-        [email],
-        (err, results) => {
-            if (err) return res.status(500).json({ error: err.message });
-            res.json(results);
-        }
-    );
-});
